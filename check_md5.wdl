@@ -12,7 +12,7 @@ workflow check_md5 {
     }
 
     output {
-        String check = results.check
+        String md5_check = results.md5_check
     }
 
      meta {
