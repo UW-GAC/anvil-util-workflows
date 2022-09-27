@@ -29,9 +29,9 @@ task results {
 
     command {
         echo "${md5sum}  ${file}" | md5sum -c > tmp
-        sed 's/${file}: //' tmp > check.txt
+        awk -F': ' '{print $2}' tmp > check.txt
     }
-    
+
     output {
         String check = read_string("check.txt")
     }
