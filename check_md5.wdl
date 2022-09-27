@@ -29,7 +29,7 @@ task results {
 
     command {
         echo "${md5sum}  ${file}" | md5sum -c > tmp
-        awk -F': ' '{print $2}' tmp > check.txt
+        cut -d ":" -f 2 tmp | sed 's/ //g' > check.txt
     }
 
     output {
