@@ -1,0 +1,7 @@
+version: 1.2
+workflows:
+   - name: check_md5
+     subclass: WDL
+     primaryDescriptorPath: /check_md5.wdl
+     testParameterFiles:
+         - /check_md5.json

@@ -1,0 +1,4 @@
+{
+    "check_md5.file": "gs://fc-547ef6ab-c518-416f-8e0f-26ab98009f30/testdata/gsr_chr1.tsv",
+    "check_md5.md5sum": "29476db253a418bae1c666814e29b0c8"
+}
