@@ -33,7 +33,7 @@ task results {
     }
 
     output {
-        String check = read_string("check.txt")
+        String md5_check = read_string("check.txt")
     }
 
     runtime {
