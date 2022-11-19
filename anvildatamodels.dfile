@@ -1,0 +1,7 @@
+FROM uwgac/anvil_dm:0.3.0
+    
+RUN Rscript -e 'BiocManager::install(c("argparser"))'
+RUN Rscript -e 'remotes::install_github("UW-GAC/AnvilDataModels", upgrade=FALSE)'
+
+RUN cd /usr/local && \
+    git clone https://github.com/UW-GAC/anvil-util-workflows.git
