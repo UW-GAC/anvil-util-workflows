@@ -46,6 +46,26 @@ output | description
 file_report | An HTML file with check results
 
 
+## data_dictionary_report
+
+This workflow checks TSV-formatted data files against a data dictionary (DD). The DD should be specified in the same format as a data model. 
+
+The user must specify the following inputs:
+
+input | description
+--- | ---
+data_file | Google bucket path to a TSV data file.
+dd_url | A URL providing the path to the data dictionary in JSON format.
+out_prefix | A prefix for the resulting HTML report.
+
+The workflow returns the following outputs:
+
+output | description
+--- | ---
+file_report | An HTML file with check results
+pass_checks | a boolean value where 'true' means the data file fulfilled the minimum requirements of the data dictionary (all required columns present)
+
+
 ## check_md5
 
 Workflow to run an md5sum check on a file and return OK or FAILED.
