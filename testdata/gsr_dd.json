@@ -57,6 +57,7 @@
             },
             {
               "column": "odds_ratio",
+              "required": "CONDITIONAL (outcome_type = binary)",
               "description": "odds ratio for binary traits",
               "data_type": "float"
             }
