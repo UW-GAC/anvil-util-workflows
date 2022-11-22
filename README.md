@@ -1,8 +1,16 @@
 # anvil-util-workflows
 
-Utilities for checking files in AnVIL
+Workflows for checking files in AnVIL
+
+The workflows are written in the Workflow Description Language ([WDL](https://docs.dockstore.org/en/stable/getting-started/getting-started-with-wdl.html)). This GitHub repository contains the Dockerfile, the WDL code, and a JSON file containing inputs to the workflow, both for testing and to serve as an example.
+
+The Dockerfile creates a docker image containing the AnvilDataModels R package and R script to generate the report. This image is built in layers, starting from an AnVIL-maintained image with the Bioconductor "AnVIL" package installed. The first layer contains the AnVILDataModels R package and is available at [uwgac/anvildatamodels](https://hub.docker.com/r/uwgac/anvildatamodels). The second layer contains the R scripts in this repository and is available on Docker Hub as
+[uwgac/anvil-util-workflows](https://hub.docker.com/r/uwgac/anvil-util-workflows).
+
 
 ## data_model_report
+
+Workflow to check TSV files against a data model using the [AnvilDataModels](https://github.com/UW-GAC/AnvilDataModels) package. An uploader will prepare files in tab separated values (TSV) format, with one file for each data table in the model, and upload them to an AnVIL workspace. This workflow will compare those files to the data model, and generate an HTML report describing any inconsistencies.
 
 This workflow checks whether expected tables (both required and optional) are included. For each table, it checks column names, data types, and primary keys. Finally, it checks foreign keys (cross-references across tables). Results of all checks are displayed in an HTML file.
 
@@ -69,3 +77,16 @@ pass_checks | a boolean value where 'true' means the data file fulfilled the min
 ## check_md5
 
 Workflow to run an md5sum check on a file and return OK or FAILED.
+
+The user must specify the following inputs:
+
+input | description
+--- | ---
+file | Google bucket path to a file.
+md5sum | String with expected md5sum.
+
+The workflow returns the following outputs:
+
+output | description
+--- | ---
+md5_check | String with results of check (OK or FAILED)
