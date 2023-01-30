@@ -84,6 +84,7 @@ input | description
 --- | ---
 file | Google bucket path to a file.
 md5sum | String with expected md5sum.
+disk_gb | (optional, default 10) Disk size in GB required to run the workflow. Set to a value larger than the input file size.
 
 The workflow returns the following outputs:
 

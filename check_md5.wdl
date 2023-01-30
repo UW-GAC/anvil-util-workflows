@@ -4,11 +4,13 @@ workflow check_md5 {
     input {
         File file
         String md5sum
+        Int disk_gb = 10
     }
 
     call results {
         input: file = file,
-               md5sum = md5sum   
+               md5sum = md5sum,
+               disk_gb = disk_gb 
     }
 
     output {
@@ -25,6 +27,7 @@ task results {
     input {
         File file
         String md5sum
+        Int disk_gb
     }
 
     command {
@@ -38,5 +41,6 @@ task results {
 
     runtime {
         docker: "ubuntu:18.04"
+        disks: "local-disk ${disk_gb} SSD"
     }
 }
