@@ -2,15 +2,13 @@ version 1.0
 
 workflow check_md5 {
     input {
-        File file
+        String file
         String md5sum
-        Int disk_gb = 10
     }
 
     call results {
         input: file = file,
-               md5sum = md5sum,
-               disk_gb = disk_gb 
+               md5sum = md5sum
     }
 
     output {
@@ -25,22 +23,21 @@ workflow check_md5 {
 
 task results {
     input {
-        File file
+        String file
         String md5sum
-        Int disk_gb
     }
 
-    command {
-        echo "${md5sum}  ${file}" | md5sum -c > tmp
-        cut -d ":" -f 2 tmp | sed 's/ //g' > check.txt
-    }
+    command <<<
+        gsutil ls -L ~{file} | grep "md5" | awk '{print $3}' > md5_b64.txt
+        python3 -c "import base64; import binascii; print(binascii.hexlify(base64.urlsafe_b64decode(open('md5_b64.txt').read())))" | cut -d "'" -f 2 > md5_hex.txt
+        python3 -c "print('PASS' if open('md5_hex.txt').read().strip() == ~{md5sum} else 'FAIL')" > check.txt
+    >>>
 
     output {
         String md5_check = read_string("check.txt")
     }
 
     runtime {
-        docker: "ubuntu:18.04"
-        disks: "local-disk ${disk_gb} SSD"
+        docker: "google/cloud-sdk:slim"
     }
 }
