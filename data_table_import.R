@@ -27,18 +27,6 @@ if (!pass) stop("table_files not compatible with data model; see pre_import_chec
 # read tables
 tables <- read_data_tables(table_files$files, table_names=table_files$names)
 
-# identify set tables
-set_flag <- grepl("_set$", table_files$names)
-sets <- table_files$names[set_flag]
-not_sets <- table_files$names[!set_flag]
-
-# must write sets after other tables
-for (t in not_sets) {
-    anvil_import_table(tables[[t]], table_name=t, model=model, overwrite=argv$overwrite,
-                       namespace=argv$workspace_namespace, name=argv$workspace_name)
-}
-
-for (t in sets) {
-    anvil_import_set(tables[[t]], table_name=t, overwrite=argv$overwrite,
-                     namespace=argv$workspace_namespace, name=argv$workspace_name)
-}
+# import tables
+anvil_import_tables(tables, model=model, overwrite=argv$overwrite,
+                    namespace=argv$workspace_namespace, name=argv$workspace_name)
