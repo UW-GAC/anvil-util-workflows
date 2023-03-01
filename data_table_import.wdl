@@ -20,7 +20,7 @@ workflow data_table_import {
     }
 
     output {
-        File file_report = results.file_report
+        File validation_report = results.validation_report
     }
 
      meta {
@@ -48,7 +48,7 @@ task results {
     }
 
     output {
-        File file_report = "pre_import_check.html"
+        File validation_report = "pre_import_check.html"
     }
 
     runtime {

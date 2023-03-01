@@ -14,7 +14,7 @@ workflow data_model_report {
     }
 
     output {
-        File file_report = results.file_report
+        File validation_report = results.validation_report
         Array[File]? tables = results.tables
         Boolean pass_checks = results.pass_checks
     }
@@ -40,7 +40,7 @@ task results {
     }
 
     output {
-        File file_report = "${out_prefix}.html"
+        File validation_report = "${out_prefix}.html"
         Array[File]? tables = glob("*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }
