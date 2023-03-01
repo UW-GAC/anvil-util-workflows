@@ -1,6 +1,6 @@
 version 1.0
 
-workflow data_model_report {
+workflow validate_data_model {
     input {
         Map[String, File] table_files
         String model_url
