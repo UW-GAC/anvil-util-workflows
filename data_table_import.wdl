@@ -6,7 +6,7 @@ workflow data_table_import {
         String model_url
         String workspace_name
         String workspace_namespace
-        Boolean overwrite
+        Boolean overwrite = false
         Boolean validate = true
     }
 
@@ -48,7 +48,7 @@ task results {
     }
 
     output {
-        File validation_report = "pre_import_check.html"
+        File validation_report = "data_model_validation.html"
     }
 
     runtime {

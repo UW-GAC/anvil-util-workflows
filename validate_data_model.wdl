@@ -50,7 +50,7 @@ task results {
     }
 
     output {
-        File validation_report = "${out_prefix}.html"
+        File validation_report = "data_model_validation.html"
         Array[File]? tables = glob("*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }

@@ -23,8 +23,8 @@ model <- json_to_dm(argv$model_file)
 # verify that tables match data model
 if (argv$validate) {
     params <- list(tables=setNames(table_files$files, table_files$names), model=argv$model_file)
-    pass <- custom_render_markdown("data_model_report", "pre_import_check", parameters=params)
-    if (!pass) stop("table_files not compatible with data model; see pre_import_check.html")
+    pass <- custom_render_markdown("data_model_report", "data_model_validation", parameters=params)
+    if (!pass) stop("table_files not compatible with data model; see validation.html")
 }
 
 # read tables

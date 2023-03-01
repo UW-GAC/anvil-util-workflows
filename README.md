@@ -52,7 +52,6 @@ input | description
 --- | ---
 table_files | This input is of type Map[String, File], which consists of key:value pairs. Keys are table names, which should correspond to names in the data model, and values are Google bucket paths to TSV files for each table.
 model_url | A URL providing the path to the data model in JSON format.
-out_prefix | A prefix for the resulting HTML report.
 
 The workflow returns the following outputs:
 
@@ -96,13 +95,12 @@ input | description
 --- | ---
 data_file | Google bucket path to a TSV data file.
 dd_url | A URL providing the path to the data dictionary in JSON format.
-out_prefix | A prefix for the resulting HTML report.
 
 The workflow returns the following outputs:
 
 output | description
 --- | ---
-validation_report | An HTML file with validation results
+validation_report | A text file with validation results
 pass_checks | a boolean value where 'true' means the data file fulfilled the minimum requirements of the data dictionary (all required columns present)
 
 

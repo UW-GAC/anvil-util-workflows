@@ -4,13 +4,11 @@ workflow data_model_report {
     input {
         Map[String, File] table_files
         String model_url
-        String out_prefix
     }
 
     call results {
         input: table_files = table_files,
-               model_url = model_url,
-               out_prefix = out_prefix
+               model_url = model_url
     }
 
     output {
@@ -29,18 +27,16 @@ task results {
     input {
         Map[String, File] table_files
         String model_url
-        String out_prefix
     }
 
     command {
         Rscript /usr/local/anvil-util-workflows/data_model_report.R \
             --table_files ${write_map(table_files)} \
-            --model_file ${model_url} \
-            --out_prefix ${out_prefix}
+            --model_file ${model_url}
     }
 
     output {
-        File validation_report = "${out_prefix}.html"
+        File validation_report = "validation.html"
         Array[File]? tables = glob("*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }

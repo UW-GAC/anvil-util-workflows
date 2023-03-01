@@ -4,12 +4,10 @@ library(AnvilDataModels)
 argp <- arg_parser("report")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
 argp <- add_argument(argp, "--model_file", help="json file with data model")
-argp <- add_argument(argp, "--out_prefix", help="output prefix")
 argv <- parse_args(argp)
 
 # argv <- list(table_files="testdata/table_files.tsv",
-#              model_file="testdata/data_model.json",
-#              out_prefix="test")
+#              model_file="testdata/data_model.json")
 
 # read data model
 model <- json_to_dm(argv$model_file)
@@ -28,7 +26,7 @@ if (length(attr(model, "auto_id")) > 0) {
     names(tables2) <- names(tables)
     
     # write new tables
-    new_files <- paste(argv$out_prefix, names(tables), "table.tsv", sep="_")
+    new_files <- paste("output", names(tables), "table.tsv", sep="_")
     names(new_files) <- names(tables)
     for (t in names(tables2)) {
         readr::write_tsv(tables2[[t]], new_files[t])
@@ -39,5 +37,5 @@ if (length(attr(model, "auto_id")) > 0) {
     params <- list(tables=setNames(table_files$files, table_files$names), model=argv$model_file)
 }
 
-pass <- custom_render_markdown("data_model_report", argv$out_prefix, parameters=params)
+pass <- custom_render_markdown("data_model_report", "data_model_validation", parameters=params)
 writeLines(tolower(as.character(pass)), "pass.txt")

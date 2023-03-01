@@ -40,7 +40,7 @@ if (length(attr(model, "auto_id")) > 0) {
 }
 
 params <- list(tables=new_files, model=argv$model_file)
-pass <- custom_render_markdown("data_model_report", "validation", parameters=params)
+pass <- custom_render_markdown("data_model_report", "data_model_validation", parameters=params)
 writeLines(tolower(as.character(pass)), "pass.txt")
 
 if (pass & argv$import_tables) {
