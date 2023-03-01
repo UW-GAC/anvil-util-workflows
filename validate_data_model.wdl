@@ -4,13 +4,19 @@ workflow data_model_report {
     input {
         Map[String, File] table_files
         String model_url
-        String out_prefix
+        String workspace_name
+        String workspace_namespace
+        Boolean overwrite = false
+        Boolean import_tables = false
     }
 
     call results {
         input: table_files = table_files,
                model_url = model_url,
-               out_prefix = out_prefix
+               workspace_name = workspace_name,
+               workspace_namespace = workspace_namespace,
+               overwrite = overwrite,
+               import_tables = import_tables
     }
 
     output {
@@ -29,14 +35,18 @@ task results {
     input {
         Map[String, File] table_files
         String model_url
-        String out_prefix
+        String workspace_name
+        String workspace_namespace
+        Boolean overwrite
+        Boolean import_tables
     }
 
     command {
-        Rscript /usr/local/anvil-util-workflows/data_model_report.R \
-            --table_files ${write_map(table_files)} \
-            --model_file ${model_url} \
-            --out_prefix ${out_prefix}
+        Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
+            --table_files ${write_map(table_files)} ${true="--overwrite" false="" overwrite} \
+            --model_file ${model_url} ${true="--import_tables" false="" import_tables} \
+            --workspace_name ${workspace_name} \
+            --workspace_namespace ${workspace_namespace}
     }
 
     output {

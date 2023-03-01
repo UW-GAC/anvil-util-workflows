@@ -8,13 +8,43 @@ The Dockerfile creates a docker image containing the AnvilDataModels R package a
 [uwgac/anvil-util-workflows](https://hub.docker.com/r/uwgac/anvil-util-workflows).
 
 
+## validate_data_model
+
+Workflow to validate TSV files against a data model using the [AnvilDataModels](https://github.com/UW-GAC/AnvilDataModels) package. An uploader will prepare files in tab separated values (TSV) format, with one file for each data table in the model, and upload them to an AnVIL workspace. This workflow will compare those files to the data model, and generate an HTML report describing any inconsistencies. 
+
+If the data model specifies that any columns be auto-generated from other columns, the workflow generates TSV files with updated tables before running checks.
+
+This workflow checks whether expected tables (both required and optional) are included. For each table, it checks column names, data types, and primary keys. Finally, it checks foreign keys (cross-references across tables). Results of all checks are displayed in an HTML file.
+
+If miminal checks are passed and `import_tables` is set to `true`, the workflow will then import the files as data tables in an AnVIL workspace. 
+
+The user must specify the following inputs:
+
+input | description
+--- | ---
+table_files | This input is of type Map[String, File], which consists of key:value pairs. Keys are table names, which should correspond to names in the data model, and values are Google bucket paths to TSV files for each table.
+model_url | A URL providing the path to the data model in JSON format.
+import_tables | A boolean indicating whether tables should be imported to a workspace after validation.
+overwrite | A boolean indicating whether existing rows in the data tables should be overwritten.
+workspace_name | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace name is "Terra-Workflows-Quickstart"
+workspace_namespace | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
+
+The workflow returns the following outputs:
+
+output | description
+--- | ---
+validation_report | An HTML file with validation results
+tables | A file array with the tables after adding auto-generated columns. This output is not generated if no additional columns are specified in the data model.
+pass_checks | a boolean value where 'true' means the set of tables fulfilled the minimum requirements of the data model (all required tables/columns present)
+
+
 ## data_model_report
 
 Workflow to validate TSV files against a data model using the [AnvilDataModels](https://github.com/UW-GAC/AnvilDataModels) package. An uploader will prepare files in tab separated values (TSV) format, with one file for each data table in the model, and upload them to an AnVIL workspace. This workflow will compare those files to the data model, and generate an HTML report describing any inconsistencies.
 
 This workflow checks whether expected tables (both required and optional) are included. For each table, it checks column names, data types, and primary keys. Finally, it checks foreign keys (cross-references across tables). Results of all checks are displayed in an HTML file.
 
-If the data model specifies that any columns be auto-generated from other columns, the workflow returns TSV files with updated tables. The user can then use functions from the AnvilDataModels](https://github.com/UW-GAC/AnvilDataModels) package to import these tables to an AnVIL workspace.
+If the data model specifies that any columns be auto-generated from other columns, the workflow returns TSV files with updated tables. The user can then use the data_table_report workflow to import these tables to an AnVIL workspace.
 
 The user must specify the following inputs:
 
@@ -43,16 +73,17 @@ input | description
 --- | ---
 table_files | This input is of type Map[String, File], which consists of key:value pairs. Keys are table names, which should correspond to names in the data model, and values are Google bucket paths to TSV files for each table.
 model_url | A URL providing the path to the data model in JSON format.
-workspace_name | A string with the workpsace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace name is "Terra-Workflows-Quickstart"
-workspace_namespace | A string with the workpsace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
-overwrite | A boolean indicating whether existing rows in the data tables should be overwritten
 validate | A boolean indicating whether to run a validation step before import
+overwrite | A boolean indicating whether existing rows in the data tables should be overwritten
+workspace_name | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace name is "Terra-Workflows-Quickstart"
+workspace_namespace | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
 
 The workflow returns the following outputs:
 
 output | description
 --- | ---
 validation_report | An HTML file with validation results
+
 
 
 ## data_dictionary_report
