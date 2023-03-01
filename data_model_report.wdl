@@ -25,7 +25,7 @@ workflow data_model_report {
     }
 }
 
-task results{
+task results {
     input {
         Map[String, File] table_files
         String model_url

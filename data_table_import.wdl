@@ -7,6 +7,7 @@ workflow data_table_import {
         String workspace_name
         String workspace_namespace
         Boolean overwrite
+        Boolean validate = true
     }
 
     call results {
@@ -14,7 +15,8 @@ workflow data_table_import {
                model_url = model_url,
                workspace_name = workspace_name,
                workspace_namespace = workspace_namespace,
-               overwrite = overwrite
+               overwrite = overwrite,
+               validate = validate
     }
 
     output {
@@ -27,19 +29,20 @@ workflow data_table_import {
     }
 }
 
-task results{
+task results {
     input {
         Map[String, File] table_files
         String model_url
         String workspace_name
         String workspace_namespace
         Boolean overwrite
+        Boolean validate
     }
     
     command {
         Rscript /usr/local/anvil-util-workflows/data_table_import.R \
-            --table_files ${write_map(table_files)} \
-            --model_file ${model_url} ${true="--overwrite" false="" overwrite} \
+            --table_files ${write_map(table_files)} ${true="--overwrite" false="" overwrite} \
+            --model_file ${model_url} ${true="--validate" false="" validate} \
             --workspace_name ${workspace_name} \
             --workspace_namespace ${workspace_namespace}
     }
@@ -49,6 +52,6 @@ task results{
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.2.5"
+        docker: "uwgac/anvil-util-workflows:0.2.7"
     }
 }
