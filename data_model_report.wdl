@@ -30,7 +30,7 @@ task results {
     }
 
     command {
-        Rscript /usr/local/anvil-util-workflows/data_model_report.R \
+        Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
             --table_files ${write_map(table_files)} \
             --model_file ${model_url}
     }
