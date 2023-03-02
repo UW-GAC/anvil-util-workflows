@@ -4,6 +4,7 @@ library(AnvilDataModels)
 argp <- arg_parser("report")
 argp <- add_argument(argp, "--data_file", help="tsv file with data")
 argp <- add_argument(argp, "--dd_file", help="json file with data dictionary for GSR files")
+argv <- parse_args(argp)
 
 # argv <- list(data_file="testdata/gsr_chr1.tsv",
 #              dd_file="testdata/gsr_dd.json")
