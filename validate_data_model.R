@@ -4,6 +4,7 @@ library(AnvilDataModels)
 argp <- arg_parser("report")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
 argp <- add_argument(argp, "--model_file", help="json file with data model")
+argp <- add_argument(argp, "--stop_on_fail", flag=TRUE, help="return an error code if table_files do not pass checks")
 argp <- add_argument(argp, "--import_tables", flag=TRUE, help="import tables after validation")
 argp <- add_argument(argp, "--overwrite", flag=TRUE, help="overwrite existing rows in tables")
 argp <- add_argument(argp, "--workspace_name", help="name of AnVIL workspace to import data to")
@@ -41,9 +42,13 @@ if (length(attr(model, "auto_id")) > 0) {
 
 params <- list(tables=new_files, model=argv$model_file)
 pass <- custom_render_markdown("data_model_report", "data_model_validation", parameters=params)
-writeLines(tolower(as.character(pass)), "pass.txt")
+if (argv$stop_on_fail) {
+    if (!pass) stop("table_files not compatible with data model; see data_model_validation.html")
+} else {
+    writeLines(tolower(as.character(pass)), "pass.txt")
+}
 
-if (pass & argv$import_tables) {
+if (argv$import_tables) {
     tables <- read_data_tables(new_files)
     anvil_import_tables(tables, model=model, overwrite=argv$overwrite,
                         namespace=argv$workspace_namespace, name=argv$workspace_name)
