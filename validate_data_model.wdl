@@ -22,7 +22,6 @@ workflow validate_data_model {
     output {
         File validation_report = results.validation_report
         Array[File]? tables = results.tables
-        Boolean pass_checks = results.pass_checks
     }
 
      meta {
