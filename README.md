@@ -16,7 +16,7 @@ If the data model specifies that any columns be auto-generated from other column
 
 This workflow checks whether expected tables (both required and optional) are included. For each table, it checks column names, data types, and primary keys. Finally, it checks foreign keys (cross-references across tables). Results of all checks are displayed in an HTML file.
 
-If miminal checks are passed and `import_tables` is set to `true`, the workflow will then import the files as data tables in an AnVIL workspace. 
+If miminal checks are passed and `import_tables` is set to `true`, the workflow will then import the files as data tables in an AnVIL workspace. If checks are not passed, the workflow will fail and the user should review the file "data_model_validation.html" in the workflow output directory.
 
 The user must specify the following inputs:
 
@@ -35,7 +35,6 @@ output | description
 --- | ---
 validation_report | An HTML file with validation results
 tables | A file array with the tables after adding auto-generated columns. This output is not generated if no additional columns are specified in the data model.
-pass_checks | a boolean value where 'true' means the set of tables fulfilled the minimum requirements of the data model (all required tables/columns present)
 
 
 ## data_model_report
