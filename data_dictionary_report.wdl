@@ -4,17 +4,15 @@ workflow data_dictionary_report {
     input {
         File data_file
         String dd_url
-        String out_prefix
     }
 
     call results {
         input: data_file = data_file,
-               dd_url = dd_url,
-               out_prefix = out_prefix
+               dd_url = dd_url
     }
 
     output {
-        File file_report = results.file_report
+        File validation_report = results.validation_report
         Boolean pass_checks = results.pass_checks
     }
 
@@ -28,22 +26,20 @@ task results{
     input {
         File data_file
         String dd_url
-        String out_prefix
     }
 
     command {
         Rscript /usr/local/anvil-util-workflows/data_dictionary_report.R \
             --data_file ${data_file} \
-            --dd_file ${dd_url} \
-            --out_prefix ${out_prefix}
+            --dd_file ${dd_url}
     }
 
     output {
-        File file_report = "${out_prefix}.txt"
+        File validation_report = "data_dictionary_validation.txt"
         Boolean pass_checks = read_boolean("pass.txt")
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.2.5"
+        docker: "uwgac/anvil-util-workflows:0.2.7"
     }
 }
