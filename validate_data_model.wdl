@@ -22,7 +22,6 @@ workflow validate_data_model {
     output {
         File validation_report = results.validation_report
         Array[File]? tables = results.tables
-        Boolean pass_checks = results.pass_checks
     }
 
      meta {
@@ -46,13 +45,13 @@ task results {
             --table_files ${write_map(table_files)} ${true="--overwrite" false="" overwrite} \
             --model_file ${model_url} ${true="--import_tables" false="" import_tables} \
             --workspace_name ${workspace_name} \
-            --workspace_namespace ${workspace_namespace}
+            --workspace_namespace ${workspace_namespace} \
+            --stop_on_fail
     }
 
     output {
         File validation_report = "data_model_validation.html"
         Array[File]? tables = glob("*_table.tsv")
-        Boolean pass_checks = read_boolean("pass.txt")
     }
 
     runtime {
