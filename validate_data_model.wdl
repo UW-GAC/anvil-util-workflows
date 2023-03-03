@@ -46,7 +46,7 @@ task results {
             --model_file ${model_url} ${true="--import_tables" false="" import_tables} \
             --workspace_name ${workspace_name} \
             --workspace_namespace ${workspace_namespace} \
-            --stop_on_fail
+            --stop_on_fail --use_existing_tables
     }
 
     output {
