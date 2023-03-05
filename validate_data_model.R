@@ -21,7 +21,7 @@ argv <- parse_args(argp)
 model <- json_to_dm(argv$model_file)
 
 # read tables
-table_files <- readr::read_tsv(argv$table_files, col_names=c("names", "files"), col_types = readr::cols())
+table_files <- read_tsv(argv$table_files, col_names=c("names", "files"), col_types = cols())
 
 # check if we need to add any columns to files
 if (length(attr(model, "auto_id")) > 0) {
@@ -37,7 +37,7 @@ if (length(attr(model, "auto_id")) > 0) {
     new_files <- paste("output", names(tables), "table.tsv", sep="_")
     names(new_files) <- names(tables)
     for (t in names(tables2)) {
-        readr::write_tsv(tables2[[t]], new_files[t])
+        write_tsv(tables2[[t]], new_files[t])
     }
 } else {
     new_files <- setNames(table_files$files, table_files$names)
