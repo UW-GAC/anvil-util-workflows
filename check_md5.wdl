@@ -29,7 +29,10 @@ task results {
 
     command <<<
         gsutil ls -L ~{file} | grep "md5" | awk '{print $3}' > md5_b64.txt
+        echo "b64 checksum: "; cat md5_b64.txt
         python3 -c "import base64; import binascii; print(binascii.hexlify(base64.urlsafe_b64decode(open('md5_b64.txt').read())))" | cut -d "'" -f 2 > md5_hex.txt
+        echo "hex checksum: "; cat md5_hex.txt
+        echo "hex provided: ~{md5sum}"
         python3 -c "print('PASS' if open('md5_hex.txt').read().strip() == '~{md5sum}' else 'FAIL')" > check.txt
         if [ $(<check.txt) = 'FAIL' ]; then
             exit 1
