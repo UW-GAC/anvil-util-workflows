@@ -33,16 +33,7 @@ task results {
         python3 -c "import base64; import binascii; print(binascii.hexlify(base64.urlsafe_b64decode(open('md5_b64.txt').read())))" | cut -d "'" -f 2 > md5_hex.txt
         echo "hex checksum: "; cat md5_hex.txt
         echo "hex provided: ~{md5sum}"
-        python3 -c "\
-        md5 =  open('md5_hex.txt').read().strip()\
-        if (md5 == '~{md5sum}'):\
-          print('PASS')\
-        elif (md5 == ''):\
-          print('UNVERIFIED')\
-        else:\
-          print('FAIL')
-        " > check.txt
-        #python3 -c "print('PASS') if open('md5_hex.txt').read().strip() == '~{md5sum}' else 'FAIL'" > check.txt
+        python3 -c "print('PASS') if open('md5_hex.txt').read().strip() == '~{md5sum}' else print('UNVERIFIED') if open('md5_hex.txt').read().strip() == '' else print('FAIL')" > check.txt
         if [ $(<check.txt) = 'FAIL' ]; then
             exit 1
         fi
