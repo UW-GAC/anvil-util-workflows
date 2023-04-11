@@ -105,7 +105,14 @@ pass_checks | a boolean value where 'true' means the data file fulfilled the min
 
 ## check_md5
 
-Workflow to compare the md5sum in google cloud storage with a user-provided value.
+Workflow to compare the md5sum in google cloud storage with a
+user-provided value. Three scenarios are possible:
+
+1. The md5sums match. The workflow succeds with return value PASS.
+2. The md5sums do not match. The workflow fails.
+3. There is no md5sum available for the file in Google cloud storage,
+   because it was uploaded with a composite or multipart upload. The
+   workflow succeeds with return value UNVERIFIED.
 
 The user must specify the following inputs:
 
@@ -118,4 +125,4 @@ The workflow returns the following outputs:
 
 output | description
 --- | ---
-md5_check | String with results of check (PASS or FAIL)
+md5_check | String with results of check (PASS, FAIL, or UNVERIFIED)
