@@ -21,7 +21,7 @@ argv <- parse_args(argp)
 model <- json_to_dm(argv$model_file)
 
 # read tables
-table_files <- read_tsv(argv$table_files, col_names=c("names", "files"), col_types = cols())
+table_files <- read_tsv(argv$table_files, col_names=c("names", "files"), col_types="cc")
 
 # check if we need to add any columns to files
 if (length(attr(model, "auto_id")) > 0) {
