@@ -6,6 +6,7 @@ library(readr)
 argp <- arg_parser("report")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
 argp <- add_argument(argp, "--model_file", help="json file with data model")
+argp <- add_argument(argp, "--hash_id_nchar", default=16, help="number of characters in automatically generated ids")
 argp <- add_argument(argp, "--use_existing_tables", flag=TRUE, help="for any tables in the data model but not included in table_files, read the existing table from the AnVIL workspace for validation")
 argp <- add_argument(argp, "--stop_on_fail", flag=TRUE, help="return an error code if table_files do not pass checks")
 argp <- add_argument(argp, "--import_tables", flag=TRUE, help="import tables after validation")
@@ -29,7 +30,7 @@ if (length(attr(model, "auto_id")) > 0) {
     
     # add auto columns
     tables2 <- lapply(names(tables), function(t) {
-        add_auto_columns(tables[[t]], table_name=t, model=model)
+        add_auto_columns(tables[[t]], table_name=t, model=model, nchar=argv$hash_id_nchar)
     })
     names(tables2) <- names(tables)
     
