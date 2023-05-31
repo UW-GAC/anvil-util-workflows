@@ -41,7 +41,6 @@ task results {
     }
 
     command {
-        Rscript -e 'remotes::install_github("UW-GAC/AnvilDataModels", ref="missing_values", upgrade=FALSE)'
         Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
             --table_files ${write_map(table_files)} ${true="--overwrite" false="" overwrite} \
             --model_file ${model_url} ${true="--import_tables" false="" import_tables} \
@@ -56,6 +55,6 @@ task results {
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.3.0"
+        docker: "uwgac/anvil-util-workflows:0.3.1"
     }
 }
