@@ -1,5 +1,6 @@
 library(argparser)
 library(AnvilDataModels)
+library(readr)
 
 argp <- arg_parser("report")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
@@ -15,7 +16,7 @@ argv <- parse_args(argp)
 #              overwrite=FALSE)
 
 # identify table files
-table_files <- readr::read_tsv(argv$table_files, col_names=c("names", "files"), col_types = readr::cols())
+table_files <- read_tsv(argv$table_files, col_names=c("names", "files"), col_types="cc")
 
 # read data model
 model <- json_to_dm(argv$model_file)
