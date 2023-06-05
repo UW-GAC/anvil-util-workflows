@@ -48,7 +48,7 @@ task results {
     }
 
     output {
-        File validation_report = "data_model_validation.html"
+        File? validation_report = "data_model_validation.html"
     }
 
     runtime {
