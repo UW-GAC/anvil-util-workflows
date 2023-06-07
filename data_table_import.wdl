@@ -20,7 +20,7 @@ workflow data_table_import {
     }
 
     output {
-        File validation_report = results.validation_report
+        File? validation_report = results.validation_report
     }
 
      meta {
