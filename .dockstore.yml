@@ -5,6 +5,11 @@ workflows:
      primaryDescriptorPath: /check_md5.wdl
      testParameterFiles:
          - /check_md5.json
+   - name: md5_hex
+     subclass: WDL
+     primaryDescriptorPath: /md5_hex.wdl
+     testParameterFiles:
+         - /md5_hex.json
    - name: data_model_report
      subclass: WDL
      primaryDescriptorPath: /data_model_report.wdl
