@@ -42,6 +42,6 @@ task results {
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.2.7"
+        docker: "uwgac/anvil-util-workflows:0.3.1"
     }
 }
