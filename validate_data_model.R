@@ -40,6 +40,10 @@ if (length(attr(model, "auto_id")) > 0) {
     for (t in names(tables2)) {
         write_tsv(tables2[[t]], new_files[t])
     }
+
+    # write list of tables with names
+    tibble(name=names(new_files), file=unlist(new_files)) %>%
+        write_tsv("output_tables.tsv", col_names=FALSE)
 } else {
     new_files <- setNames(table_files$files, table_files$names)
 }

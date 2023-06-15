@@ -55,10 +55,10 @@ task results {
 
     output {
         File validation_report = "data_model_validation.html"
-        Array[File]? tables = glob("*_table.tsv")
+        Map[String, File]? tables = read_map("output_tables.tsv")
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.3.1"
+        docker: "uwgac/anvil-util-workflows:0.3.1.1"
     }
 }
