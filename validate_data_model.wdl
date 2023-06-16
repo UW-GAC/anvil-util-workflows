@@ -23,7 +23,7 @@ workflow validate_data_model {
 
     output {
         File validation_report = results.validation_report
-        Array[File]? tables = results.tables
+        Map[String, File]? tables = results.tables
     }
 
      meta {
