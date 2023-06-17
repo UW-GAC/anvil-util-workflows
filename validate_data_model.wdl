@@ -23,7 +23,7 @@ workflow validate_data_model {
 
     output {
         File validation_report = results.validation_report
-        Map[String, File]? tables = results.tables
+        Array[File]? tables = results.tables
     }
 
      meta {
@@ -63,7 +63,7 @@ task results {
 
     output {
         File validation_report = "data_model_validation.html"
-        Map[String, File]? tables = read_map("output_tables.tsv")
+        Array[File]? = glob("output_*_table.tsv")
     }
 
     runtime {

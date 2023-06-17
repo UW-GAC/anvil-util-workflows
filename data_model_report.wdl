@@ -13,7 +13,7 @@ workflow data_model_report {
 
     output {
         File validation_report = results.validation_report
-        Map[String, File]? tables = results.tables
+        Array[File]? tables = results.tables
         Boolean pass_checks = results.pass_checks
     }
 
@@ -37,7 +37,7 @@ task results {
 
     output {
         File validation_report = "data_model_validation.html"
-        Map[String, File]? tables = read_map("output_tables.tsv")
+        Array[File]? = glob("output_*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }
 
