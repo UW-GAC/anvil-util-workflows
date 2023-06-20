@@ -3,14 +3,12 @@ library(AnvilDataModels)
 library(AnVIL)
 library(readr)
 
-argp <- arg_parser("report")
+argp <- arg_parser("validate")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
 argp <- add_argument(argp, "--model_file", help="json file with data model")
 argp <- add_argument(argp, "--hash_id_nchar", default=16, help="number of characters in automatically generated ids")
 argp <- add_argument(argp, "--use_existing_tables", flag=TRUE, help="for any tables in the data model but not included in table_files, read the existing table from the AnVIL workspace for validation")
 argp <- add_argument(argp, "--stop_on_fail", flag=TRUE, help="return an error code if table_files do not pass checks")
-argp <- add_argument(argp, "--import_tables", flag=TRUE, help="import tables after validation")
-argp <- add_argument(argp, "--overwrite", flag=TRUE, help="overwrite existing rows in tables")
 argp <- add_argument(argp, "--workspace_name", help="name of AnVIL workspace to import data to")
 argp <- add_argument(argp, "--workspace_namespace", help="namespace of AnVIL workspace to import data to")
 argv <- parse_args(argp)
@@ -44,6 +42,10 @@ if (length(attr(model, "auto_id")) > 0) {
     new_files <- setNames(table_files$files, table_files$names)
 }
 
+# write list of tables with names
+tibble(name=names(new_files), file=unlist(new_files)) %>%
+    write_tsv("output_tables.tsv", col_names=FALSE)
+
 check_files <- new_files
 if (argv$use_existing_tables) {
     existing_table_names <- avtables(namespace=argv$workspace_namespace, name=argv$workspace_name)$table
@@ -63,10 +65,4 @@ if (argv$stop_on_fail) {
     if (!pass) stop("table_files not compatible with data model; see data_model_validation.html")
 } else {
     writeLines(tolower(as.character(pass)), "pass.txt")
-}
-
-if (argv$import_tables) {
-    tables <- read_data_tables(new_files)
-    anvil_import_tables(tables, model=model, overwrite=argv$overwrite,
-                        namespace=argv$workspace_namespace, name=argv$workspace_name)
 }

@@ -37,11 +37,11 @@ task results {
 
     output {
         File validation_report = "data_model_validation.html"
-        Array[File]? tables = glob("*_table.tsv")
+        Array[File]? = glob("output_*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.3.1"
+        docker: "uwgac/anvil-util-workflows:0.3.1.2"
     }
 }

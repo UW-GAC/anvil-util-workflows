@@ -45,20 +45,28 @@ task results {
 
     command {
         Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
-            --table_files ${write_map(table_files)} ${true="--overwrite" false="" overwrite} \
-            --model_file ${model_url} ${true="--import_tables" false="" import_tables} \
+            --table_files ${write_map(table_files)} \
+            --model_file ${model_url} \
             --workspace_name ${workspace_name} \
             --workspace_namespace ${workspace_namespace} \
             --stop_on_fail --use_existing_tables \
             --hash_id_nchar ${hash_id_nchar}
+        if [[ "~{import_tables}" == "true" ]]
+        then
+          Rscript /usr/local/anvil-util-workflows/data_table_import.R \
+            --table_files output_tables.tsv \
+            --model_file ${model_url} ${true="--overwrite" false="" overwrite} \
+            --workspace_name ${workspace_name} \
+            --workspace_namespace ${workspace_namespace}
+        fi
     }
 
     output {
         File validation_report = "data_model_validation.html"
-        Array[File]? tables = glob("*_table.tsv")
+        Array[File]? tables = glob("output_*_table.tsv")
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.3.1"
+        docker: "uwgac/anvil-util-workflows:0.3.1.2"
     }
 }
