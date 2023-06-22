@@ -47,3 +47,32 @@ task results {
         docker: "google/cloud-sdk:slim"
     }
 }
+
+
+task summarize_md5_check {
+    input {
+        Array[String] file
+        Array[String] md5_check
+    }
+
+    command <<<
+        Rscript -e "\
+        files <- readLines('~{write_lines(file)}'); \
+        checks <- readLines('~{write_lines(md5_check)}'); \
+        library(dplyr); \
+        dat <- tibble(file_path=files, md5_check=checks); \
+        readr::write_tsv(dat, 'details.txt'); \
+        ct <- mutate(count(dat, md5_check), x=paste(n, md5_check)); \
+        writeLines(paste(ct[['x']], collapse=', '), 'summary.txt'); \
+        "
+    >>>
+    
+    output {
+        String summary = read_string("summary.txt")
+        File details = "details.txt"
+    }
+
+    runtime {
+        docker: "us.gcr.io/broad-dsp-gcr-public/anvil-rstudio-bioconductor:3.16.0"
+    }
+}
