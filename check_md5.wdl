@@ -4,7 +4,7 @@ workflow check_md5 {
     input {
         String file
         String md5sum
-        String project_id
+        String? project_id
     }
 
     call results {
@@ -27,11 +27,11 @@ task results {
     input {
         String file
         String md5sum
-        String project_id
+        String? project_id
     }
 
     command <<<
-        gsutil -u ~{project_id} ls -L ~{file} | grep "md5" | awk '{print $3}' > md5_b64.txt
+        gsutil ${true='-u ~{project_id}' false='' defined(project_id)}  ls -L ~{file} | grep "md5" | awk '{print $3}' > md5_b64.txt
         echo "b64 checksum: "; cat md5_b64.txt
         python3 -c "import base64; import binascii; print(binascii.hexlify(base64.urlsafe_b64decode(open('md5_b64.txt').read())))" | cut -d "'" -f 2 > md5_hex.txt
         echo "hex checksum: "; cat md5_hex.txt
