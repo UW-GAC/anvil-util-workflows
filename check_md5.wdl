@@ -36,6 +36,7 @@ task results {
         set -e
         gsutil ~{project_id_string} ls -L ~{file} 2> errors.txt | grep "md5" | awk '{print $3}' > md5_b64.txt
         if [[ $(<errors.txt) =~ 'CommandException' ]]; then
+            cat errors.txt
             exit 1
         fi
         echo "b64 checksum: "; cat md5_b64.txt
