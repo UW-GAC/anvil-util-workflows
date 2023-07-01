@@ -35,7 +35,7 @@ task results {
     command <<<
         set -e
         gsutil ~{project_id_string} ls -L ~{file} 2> errors.txt | grep "md5" | awk '{print $3}' > md5_b64.txt
-        if [ $(<errors.txt) =~ 'CommandException' ]; then
+        if [[ $(<errors.txt) =~ 'CommandException' ]]; then
             exit 1
         fi
         echo "b64 checksum: "; cat md5_b64.txt
@@ -43,7 +43,7 @@ task results {
         echo "hex checksum: "; cat md5_hex.txt
         echo "hex provided: ~{md5sum}"
         python3 -c "print('PASS') if open('md5_hex.txt').read().strip() == '~{md5sum}' else print('UNVERIFIED') if open('md5_hex.txt').read().strip() == '' else print('FAIL')" > check.txt
-        if [ $(<check.txt) = 'FAIL' ]; then
+        if [[ $(<check.txt) = 'FAIL' ]]; then
             exit 1
         fi
     >>>
