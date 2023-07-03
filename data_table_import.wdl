@@ -9,7 +9,7 @@ workflow data_table_import {
         Boolean overwrite = false
     }
 
-    call results {
+    call import_tables {
         input: table_files = table_files,
                model_url = model_url,
                workspace_name = workspace_name,
@@ -23,7 +23,7 @@ workflow data_table_import {
     }
 }
 
-task results {
+task import_tables {
     input {
         Map[String, File] table_files
         String model_url

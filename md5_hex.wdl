@@ -5,12 +5,12 @@ workflow md5_hex {
         String file
     }
 
-    call results {
+    call md5 {
         input: file = file
     }
 
     output {
-        String md5 = results.md5
+        String md5sum = md5.md5sum
     }
 
      meta {
@@ -19,7 +19,7 @@ workflow md5_hex {
      }
 }
 
-task results {
+task md5 {
     input {
         String file
     }
@@ -32,7 +32,7 @@ task results {
     >>>
 
     output {
-        String md5 = read_string("md5_hex.txt")
+        String md5sum = read_string("md5_hex.txt")
     }
 
     runtime {

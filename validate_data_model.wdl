@@ -11,7 +11,7 @@ workflow validate_data_model {
         Int? hash_id_nchar
     }
 
-    call results {
+    call validate {
         input: table_files = table_files,
                model_url = model_url,
                hash_id_nchar = hash_id_nchar,
@@ -22,8 +22,8 @@ workflow validate_data_model {
     }
 
     output {
-        File validation_report = results.validation_report
-        Array[File]? tables = results.tables
+        File validation_report = validate.validation_report
+        Array[File]? tables = validate.tables
     }
 
      meta {
@@ -32,7 +32,7 @@ workflow validate_data_model {
     }
 }
 
-task results {
+task validate {
     input {
         Map[String, File] table_files
         String model_url

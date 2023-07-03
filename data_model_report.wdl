@@ -6,15 +6,15 @@ workflow data_model_report {
         String model_url
     }
 
-    call results {
+    call validate {
         input: table_files = table_files,
                model_url = model_url
     }
 
     output {
-        File validation_report = results.validation_report
-        Array[File]? tables = results.tables
-        Boolean pass_checks = results.pass_checks
+        File validation_report = validate.validation_report
+        Array[File]? tables = validate.tables
+        Boolean pass_checks = validate.pass_checks
     }
 
      meta {
@@ -23,7 +23,7 @@ workflow data_model_report {
     }
 }
 
-task results {
+task validate {
     input {
         Map[String, File] table_files
         String model_url
@@ -37,7 +37,7 @@ task results {
 
     output {
         File validation_report = "data_model_validation.html"
-        Array[File]? = glob("output_*_table.tsv")
+        Array[File]? tables = glob("output_*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }
 

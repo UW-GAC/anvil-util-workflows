@@ -6,14 +6,14 @@ workflow data_dictionary_report {
         String dd_url
     }
 
-    call results {
+    call validate {
         input: data_file = data_file,
                dd_url = dd_url
     }
 
     output {
-        File validation_report = results.validation_report
-        Boolean pass_checks = results.pass_checks
+        File validation_report = validate.validation_report
+        Boolean pass_checks = validate.pass_checks
     }
 
      meta {
@@ -22,7 +22,7 @@ workflow data_dictionary_report {
     }
 }
 
-task results{
+task validate {
     input {
         File data_file
         String dd_url
