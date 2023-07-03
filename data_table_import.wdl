@@ -32,13 +32,13 @@ task import_tables {
         Boolean overwrite
     }
     
-    command {
+    command <<<
         Rscript /usr/local/anvil-util-workflows/data_table_import.R \
-            --table_files ${write_map(table_files)} \
-            --model_file ${model_url} ${true="--overwrite" false="" overwrite} \
-            --workspace_name ${workspace_name} \
-            --workspace_namespace ${workspace_namespace}
-    }
+            --table_files ~{write_map(table_files)} \
+            --model_file ~{model_url} ~{true="--overwrite" false="" overwrite} \
+            --workspace_name ~{workspace_name} \
+            --workspace_namespace ~{workspace_namespace}
+    >>>
 
     runtime {
         docker: "uwgac/anvil-util-workflows:0.3.2"

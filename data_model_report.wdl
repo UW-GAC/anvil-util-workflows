@@ -29,11 +29,11 @@ task validate {
         String model_url
     }
 
-    command {
+    command <<<
         Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
-            --table_files ${write_map(table_files)} \
-            --model_file ${model_url}
-    }
+            --table_files ~{write_map(table_files)} \
+            --model_file ~{model_url}
+    >>>
 
     output {
         File validation_report = "data_model_validation.html"
