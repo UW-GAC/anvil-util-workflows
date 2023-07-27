@@ -3,7 +3,7 @@ version 1.0
 workflow data_table_import {
     input {
         Map[String, File] table_files
-        String model_url
+        String? model_url
         String workspace_name
         String workspace_namespace
         Boolean overwrite = false
@@ -26,16 +26,17 @@ workflow data_table_import {
 task import_tables {
     input {
         Map[String, File] table_files
-        String model_url
+        String? model_url
         String workspace_name
         String workspace_namespace
         Boolean overwrite
     }
+
+    String model_string = if defined(model_url) then "--model_file " + model_url else ""
     
     command <<<
         Rscript /usr/local/anvil-util-workflows/data_table_import.R \
-            --table_files ~{write_map(table_files)} \
-            --model_file ~{model_url} ~{true="--overwrite" false="" overwrite} \
+            --table_files ${write_map(table_files)} ${model_string} ${true="--overwrite" false="" overwrite} \
             --workspace_name ~{workspace_name} \
             --workspace_namespace ~{workspace_namespace}
     >>>

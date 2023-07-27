@@ -18,7 +18,11 @@ argv <- parse_args(argp)
 table_files <- read_tsv(argv$table_files, col_names=c("names", "files"), col_types="cc")
 
 # read data model
-model <- json_to_dm(argv$model_file)
+if (!is.na(argv$model_file)) {
+    model <- json_to_dm(argv$model_file)
+} else {
+    model <- NULL
+}
 
 # read tables
 tables <- read_data_tables(table_files$files, table_names=table_files$names)
