@@ -121,6 +121,7 @@ input | description
 --- | ---
 file | Google bucket path to a file.
 md5sum | String with expected md5sum.
+project_id | Google project id to bill for checking files in requester_pays buckets.
 
 The workflow returns the following outputs:
 
