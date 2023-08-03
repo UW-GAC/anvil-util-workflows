@@ -49,7 +49,8 @@ tibble(name=names(new_files), file=unlist(new_files)) %>%
 check_files <- new_files
 if (argv$use_existing_tables) {
     existing_table_names <- avtables(namespace=argv$workspace_namespace, name=argv$workspace_name)$table
-    for (t in setdiff(existing_table_names, names(new_files))) {
+    required_tables <- AnvilDataModels:::.parse_required_tables(existing_table_names, model)$required
+    for (t in setdiff(required_tables, names(new_files))) {
         dat <- avtable(t, namespace=argv$workspace_namespace, name=argv$workspace_name)
         if (grepl("_set$", t)) {
             dat <- unnest_set_table(dat)
