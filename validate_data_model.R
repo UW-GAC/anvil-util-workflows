@@ -21,7 +21,7 @@ model <- json_to_dm(argv$model_file)
 
 # read tables
 table_files <- read_tsv(argv$table_files, col_names=c("names", "files"), col_types="cc")
-print("tables to validate:")
+message("tables to validate:")
 print(table_files$names)
 
 # check if we need to add any columns to files
@@ -53,7 +53,7 @@ if (argv$use_existing_tables) {
     existing_table_names <- avtables(namespace=argv$workspace_namespace, name=argv$workspace_name)$table
     required_tables <- AnvilDataModels:::.parse_required_tables(names(check_files), model)$required
     workspace_tables <- setdiff(required_tables, names(check_files))
-    print("tables read from workspace:")
+    message("tables read from workspace:")
     print(workspace_tables)
     for (t in workspace_tables) {
         dat <- avtable(t, namespace=argv$workspace_namespace, name=argv$workspace_name)
