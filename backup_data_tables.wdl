@@ -12,8 +12,9 @@ workflow backup_data_tables {
       output_directory=output_directory
   }
   output {
-    # Files.
-    Array[File] tables = backup_tables.tables
+    # Should there actually be output from this workflow if the files are copied to the bucket?
+    Array[File] tables = backup_tables.table_files
+    File json_file = backup_tables.json_file
   }
 }
 
@@ -32,8 +33,9 @@ task backup_tables {
         --output_directory ~{output_directory}
   }
   output {
-    # Files.
-    Array[File] tables = glob("*.tsv")
+    # Should there actually be output from this workflow if the files are copied to the bucket?
+    Array[File] table_files = glob("*.tsv")
+    json_file = "table_files.json"
   }
   runtime {
     # Pull from DockerHub
