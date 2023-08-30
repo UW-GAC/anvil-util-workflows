@@ -1,5 +1,10 @@
 version: 1.2
 workflows:
+   - name: backup_data_tables
+     subclass: WDL
+     primaryDescriptorPath: /backup_data_tables.wdl
+     testParameterFiles:
+         - /backup_data_tables.json
    - name: check_md5
      subclass: WDL
      primaryDescriptorPath: /check_md5.wdl
