@@ -35,7 +35,7 @@ task backup_tables {
   output {
     # Should there actually be output from this workflow if the files are copied to the bucket?
     Array[File] table_files = glob("*.tsv")
-    json_file = "table_files.json"
+    File json_file = "table_files.json"
   }
   runtime {
     # Pull from DockerHub
