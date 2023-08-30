@@ -10,7 +10,7 @@ The Dockerfile creates a docker image containing the AnvilDataModels R package a
 
 ## validate_data_model
 
-Workflow to validate TSV files against a data model using the [AnvilDataModels](https://github.com/UW-GAC/AnvilDataModels) package. An uploader will prepare files in tab separated values (TSV) format, with one file for each data table in the model, and upload them to an AnVIL workspace. This workflow will compare those files to the data model, and generate an HTML report describing any inconsistencies. 
+Workflow to validate TSV files against a data model using the [AnvilDataModels](https://github.com/UW-GAC/AnvilDataModels) package. An uploader will prepare files in tab separated values (TSV) format, with one file for each data table in the model, and upload them to an AnVIL workspace. This workflow will compare those files to the data model, and generate an HTML report describing any inconsistencies.
 
 If the data model specifies that any columns be auto-generated from other columns, the workflow generates TSV files with updated tables before running checks.
 
@@ -87,7 +87,7 @@ validation_report | An HTML file with validation results
 
 ## data_dictionary_report
 
-This workflow checks TSV-formatted data files against a data dictionary (DD). The DD should be specified in the same format as a data model. 
+This workflow checks TSV-formatted data files against a data dictionary (DD). The DD should be specified in the same format as a data model.
 
 The user must specify the following inputs:
 
@@ -128,3 +128,20 @@ The workflow returns the following outputs:
 output | description
 --- | ---
 md5_check | String with results of check (PASS, FAIL, or UNVERIFIED)
+
+
+## backup_data_tables
+
+Workflow to back up the data currently stored in data tables in a workspace to a
+folder in the cloud bucket associated with that workspace. The data tables are
+exported in tsv format. A json file is also provided containing the mapping between
+data table name and output file, which could be used as an input to validate_data_model
+if the user wishes to restore data tables using these tsvs.
+
+The user must specify the following inputs:
+
+input | description
+--- | ---
+workspace_name | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace name is "Terra-Workflows-Quickstart"
+workspace_namespace | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
+output_directory | The name of the folder in which data table tsvs will be stored. If the folder does not to exist in the workspace bucket, the workflow will create it.
