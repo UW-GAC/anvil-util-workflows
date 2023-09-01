@@ -7,14 +7,14 @@ workflow check_md5 {
         String? project_id
     }
 
-    call check {
+    call md5check {
         input: file = file,
                md5sum = md5sum,
                project_id = project_id
     }
 
     output {
-        String md5_check = check.md5_check
+        String md5_check = md5check.md5_check
     }
 
      meta {
@@ -23,7 +23,7 @@ workflow check_md5 {
      }
 }
 
-task check {
+task md5check {
     input {
         String file
         String md5sum
