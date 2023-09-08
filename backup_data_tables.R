@@ -16,7 +16,11 @@ print(argv)
 bucket <- avbucket(namespace=argv$workspace_namespace, name=argv$workspace_name)
 
 # Check if the output directory already exists.
-outdir <- file.path(bucket, arg$output_directory)
+outdir <- file.path(bucket, argv$output_directory)
+# Debugging
+tmp <- gsutil_ls(outdir)
+print(tmp)
+
 if (gsutil_ls(outdir) & !argv$overwrite) {
     stop(sprintf("Output directory already exists: %s", outdir))
 }
