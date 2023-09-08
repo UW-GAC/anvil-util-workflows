@@ -5,6 +5,7 @@ workflow backup_data_tables {
     String workspace_namespace
     String workspace_name
     String output_directory
+    Boolean overwrite = false
   }
   call backup_tables {
     input: workspace_namespace=workspace_namespace,
@@ -19,12 +20,14 @@ task backup_tables {
     String workspace_namespace
     String workspace_name
     String output_directory
+    Boolean overwrite
   }
   command {
     set -e
     Rscript /usr/local/anvil-util-workflows/backup_data_tables.R \
         --workspace_namespace ~{workspace_namespace} \
         --workspace_name ~{workspace_name} \
+        ${true="--overwrite" false="" overwrite} \
         --output_directory ~{output_directory}
   }
   runtime {

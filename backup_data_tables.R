@@ -8,11 +8,18 @@ sessionInfo()
 argp <- arg_parser("backup_data_tables") %>%
     add_argument("--workspace_name", help="Name of workspace to operate on") %>%
     add_argument("--workspace_namespace", help="Namespace of workspace to operate on") %>%
+    add_argument("--overwrite", flag=TRUE, help="ovewrite existing files if they exist") %>%
     add_argument("--output_directory", help="Directory to copy files to in workspace bucket")
 argv <- parse_args(argp)
 print(argv)
 
 bucket <- avbucket(namespace=argv$workspace_namespace, name=argv$workspace_name)
+
+# Check if the output directory already exists.
+outdir <- file.path(bucket, arg$output_directory)
+if (gsutil_ls(outdir) & !argv$overwrite) {
+    stop(sprintf("Output directory already exists: %s", outdir))
+}
 
 # Loop over tables and write a tsv.
 table_json <- list()
@@ -30,12 +37,12 @@ for (t in tables) {
 list.files()
 
 # Copy the output to the final destination.
-gsutil_cp("*.tsv", file.path(bucket, argv$output_directory))
+gsutil_cp("*.tsv", outdir)
 
 # Save the json file with table inputs.
 outfile <- "table_files.json"
 writeLines(toJSON(table_json, auto_unbox=TRUE), outfile)
 # Copy to the final destination.
-gsutil_cp(outfile, file.path(bucket, argv$output_directory))
+gsutil_cp(outfile, outdir)
 
 message("Done!")
