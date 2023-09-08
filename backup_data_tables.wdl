@@ -29,6 +29,6 @@ task backup_tables {
   }
   runtime {
     # Pull from DockerHub
-    docker: "uwgac/anvil-util-workflows:0.4.1.1"
+    docker: "uwgac/anvil-util-workflows:0.4.2.1"
   }
 }
