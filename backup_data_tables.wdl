@@ -10,7 +10,8 @@ workflow backup_data_tables {
   call backup_tables {
     input: workspace_namespace=workspace_namespace,
       workspace_name=workspace_name,
-      output_directory=output_directory
+      output_directory=output_directory,
+      overwrite=overwrite
   }
 }
 
