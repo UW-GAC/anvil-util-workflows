@@ -20,7 +20,9 @@ outdir <- file.path(bucket, argv$output_directory)
 
 # Check if the output directory already exists.
 bucket_files <- gsutil_ls(bucket)
+print(bucket_files)
 outdir_exists <- any(str_detect(bucket_files, outdir))
+print(outdir_exists)
 if (outdir_exists & !argv$overwrite) {
     stop(sprintf("Output directory already exists: %s", outdir))
 }
@@ -41,6 +43,7 @@ for (t in tables) {
 list.files()
 
 # Copy the output to the final destination.
+print(outdir)
 gsutil_cp("*.tsv", outdir)
 
 # Save the json file with table inputs.
