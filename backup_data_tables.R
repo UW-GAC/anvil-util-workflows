@@ -1,6 +1,7 @@
 library(argparser)
 library(magrittr)
 library(readr)
+library(stringr)
 library(jsonlite)
 library(AnVIL)
 sessionInfo()
