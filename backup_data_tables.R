@@ -26,7 +26,6 @@ chk <- tryCatch(
     },
     error=function(x) return(NULL)
 )
-print(chk)
 if (!is.null(chk) & !argv$overwrite) {
     stop(sprintf("Output directory already exists: %s", outdir))
 }
