@@ -21,9 +21,15 @@ outdir <- file.path(bucket, argv$output_directory)
 # Check if the output directory already exists.
 bucket_files <- gsutil_ls(bucket)
 print(bucket_files)
-outdir_exists <- any(str_detect(bucket_files, outdir))
-print(outdir_exists)
-if (outdir_exists & !argv$overwrite) {
+
+chk <- tryCatch(
+    {
+        # If this works, the directory exists and has files it in, so there should be an error.
+        gsutil_stat(file.path(outdir, "*"))
+    },
+    error=function(x) return(NULL)
+)
+if (!is.null(chk) & !argv$overwrite) {
     stop(sprintf("Output directory already exists: %s", outdir))
 }
 
