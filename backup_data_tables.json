@@ -1,0 +1,6 @@
+{
+    "backup_data_tables.workspace_namespace": "primed-adrienne",
+    "backup_data_tables.workspace_name": "primed-sandbox",
+    "backup_data_tables.output_directory": "test_backup_data_tables",
+    "backup_data_tables.overwrite": "false"
+}
