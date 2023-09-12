@@ -134,9 +134,10 @@ md5_check | String with results of check (PASS, FAIL, or UNVERIFIED)
 
 Workflow to back up the data currently stored in data tables in a workspace to a
 folder in the cloud bucket associated with that workspace. The data tables are
-exported in tsv format. A json file is also provided containing the mapping between
-data table name and output file, which could be used as an input to validate_data_model
-if the user wishes to restore data tables using these tsvs.
+exported in tsv format. A json file containing the mapping between data table
+name and output file is also created, which could be used as an input to
+`validate_data_model` if the user wishes to restore data tables using these
+tsvs.
 
 The user must specify the following inputs:
 
@@ -144,4 +145,5 @@ input | description
 --- | ---
 workspace_name | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace name is "Terra-Workflows-Quickstart"
 workspace_namespace | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
-output_directory | The name of the folder in which data table tsvs will be stored. If the folder does not to exist in the workspace bucket, the workflow will create it.
+output_directory | The name of the folder in which data table tsvs will be stored.
+overwrite | A boolean indicating whether the workflow should continue if the specified `output_direcrory ` already exists (default "false")
