@@ -13,6 +13,12 @@ workflow backup_data_tables {
       output_directory=output_directory,
       overwrite=overwrite
   }
+
+  meta {
+    author: "Adrienne Stilp"
+    email: "amstilp@uw.edu"
+  }
+
 }
 
 
