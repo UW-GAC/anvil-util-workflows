@@ -1,4 +1,4 @@
-FROM uwgac/anvil_dm:1.0.6
+FROM uwgac/anvil_dm:1.0.6.1
     
 RUN Rscript -e 'BiocManager::install("argparser")'
 RUN Rscript -e 'remotes::install_github("Bioconductor/AnVIL", upgrade=FALSE)'
