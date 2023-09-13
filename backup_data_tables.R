@@ -4,6 +4,7 @@ library(readr)
 library(stringr)
 library(jsonlite)
 library(AnVIL)
+library(AnvilDataModels)
 sessionInfo()
 
 argp <- arg_parser("backup_data_tables") %>%
@@ -36,6 +37,9 @@ tables <- avtables(namespace=argv$workspace_namespace, name=argv$workspace_name)
 for (t in tables) {
     message(sprintf("Backing up %s", t))
     table_data <- avtable(t, namespace=argv$workspace_namespace, name=argv$workspace_name)
+    if (grepl("_set$", t)) {
+        table_data <- unnest_set_table(table_data)
+    }
     # outfile <- file.path(tmpdir, sprintf("%s.tsv", table))
     outfile <- sprintf("%s.tsv", t)
     write_tsv(table_data, outfile)
