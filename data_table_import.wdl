@@ -36,7 +36,7 @@ task import_tables {
     
     command <<<
         Rscript /usr/local/anvil-util-workflows/data_table_import.R \
-            --table_files ${write_map(table_files)} ${model_string} ${true="--overwrite" false="" overwrite} \
+            --table_files ~{write_map(table_files)} ~{model_string} ~{true="--overwrite" false="" overwrite} \
             --workspace_name ~{workspace_name} \
             --workspace_namespace ~{workspace_namespace}
     >>>
