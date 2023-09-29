@@ -42,6 +42,6 @@ task import_tables {
     >>>
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.4.2"
+        docker: "uwgac/anvil-util-workflows:0.4.4"
     }
 }
