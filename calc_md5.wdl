@@ -1,6 +1,6 @@
 version 1.0
 
-workflow md5_hex {
+workflow calc_md5 {
     input {
         File file
         Int? disk_gb
