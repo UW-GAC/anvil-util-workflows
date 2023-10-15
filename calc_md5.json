@@ -1,0 +1,3 @@
+{
+    "calc_md5.file": "${this.file_path}"
+}
