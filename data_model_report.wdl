@@ -4,6 +4,7 @@ workflow data_model_report {
     input {
         Map[String, File] table_files
         String model_url
+        Boolean skip_hash_id = true
     }
 
     call validate {
@@ -13,7 +14,6 @@ workflow data_model_report {
 
     output {
         File validation_report = validate.validation_report
-        Array[File]? tables = validate.tables
         Boolean pass_checks = validate.pass_checks
     }
 
@@ -32,12 +32,12 @@ task validate {
     command <<<
         Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
             --table_files ~{write_map(table_files)} \
-            --model_file ~{model_url}
+            --model_file ~{model_url} \
+            --skip_hash_id
     >>>
 
     output {
         File validation_report = "data_model_validation.html"
-        Array[File]? tables = glob("output_*_table.tsv")
         Boolean pass_checks = read_boolean("pass.txt")
     }
 

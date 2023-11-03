@@ -7,6 +7,7 @@ argp <- arg_parser("validate")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
 argp <- add_argument(argp, "--model_file", help="json file with data model")
 argp <- add_argument(argp, "--hash_id_nchar", default=16, help="number of characters in automatically generated ids")
+argp <- add_argument(argp, "--skip_hash_id", flag=TRUE, help="skip automatic id generation")
 argp <- add_argument(argp, "--use_existing_tables", flag=TRUE, help="for any tables in the data model but not included in table_files, read the existing table from the AnVIL workspace for validation")
 argp <- add_argument(argp, "--stop_on_fail", flag=TRUE, help="return an error code if table_files do not pass checks")
 argp <- add_argument(argp, "--workspace_name", help="name of AnVIL workspace to import data to")
@@ -25,30 +26,35 @@ message("tables to validate:")
 print(table_files$names)
 
 # check if we need to add any columns to files
-if (length(attr(model, "auto_id")) > 0) {
-    tables <- read_data_tables(table_files$files, table_names=table_files$names)
-    
-    # add auto columns
-    tables2 <- lapply(names(tables), function(t) {
-        add_auto_columns(tables[[t]], table_name=t, model=model, nchar=argv$hash_id_nchar)
-    })
-    names(tables2) <- names(tables)
-    
-    # write new tables
-    new_files <- paste("output", names(tables), "table.tsv", sep="_")
-    names(new_files) <- names(tables)
-    for (t in names(tables2)) {
-        write_tsv(tables2[[t]], new_files[t])
+if (!argv$skip_hash_id) {
+    if (length(attr(model, "auto_id")) > 0) {
+        tables <- read_data_tables(table_files$files, table_names=table_files$names)
+        
+        # add auto columns
+        tables2 <- lapply(names(tables), function(t) {
+            add_auto_columns(tables[[t]], table_name=t, model=model, nchar=argv$hash_id_nchar)
+        })
+        names(tables2) <- names(tables)
+        
+        # write new tables
+        new_files <- paste("output", names(tables), "table.tsv", sep="_")
+        names(new_files) <- names(tables)
+        for (t in names(tables2)) {
+            write_tsv(tables2[[t]], new_files[t])
+        }
+    } else {
+        new_files <- setNames(table_files$files, table_files$names)
     }
+
+    # write list of tables with names
+    tibble(name=names(new_files), file=unlist(new_files)) %>%
+        write_tsv("output_tables.tsv", col_names=FALSE)
+
+    check_files <- new_files
 } else {
-    new_files <- setNames(table_files$files, table_files$names)
+    check_files <- table_files
 }
 
-# write list of tables with names
-tibble(name=names(new_files), file=unlist(new_files)) %>%
-    write_tsv("output_tables.tsv", col_names=FALSE)
-
-check_files <- new_files
 if (argv$use_existing_tables) {
     existing_table_names <- avtables(namespace=argv$workspace_namespace, name=argv$workspace_name)$table
     required_tables <- AnvilDataModels:::.parse_required_tables(names(check_files), model)$required
