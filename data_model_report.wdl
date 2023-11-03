@@ -4,7 +4,6 @@ workflow data_model_report {
     input {
         Map[String, File] table_files
         String model_url
-        Boolean skip_hash_id = true
     }
 
     call validate {
