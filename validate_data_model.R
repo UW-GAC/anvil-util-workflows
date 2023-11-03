@@ -3,6 +3,7 @@ library(AnvilDataModels)
 library(AnVIL)
 library(readr)
 
+
 argp <- arg_parser("validate")
 argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table name, table tsv file)")
 argp <- add_argument(argp, "--model_file", help="json file with data model")
@@ -52,7 +53,7 @@ if (!argv$skip_hash_id) {
 
     check_files <- new_files
 } else {
-    check_files <- table_files
+    check_files <- setNames(table_files$files, table_files$names)
 }
 
 if (argv$use_existing_tables) {
