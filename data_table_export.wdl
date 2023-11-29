@@ -47,7 +47,7 @@ task export_tables {
     >>>
 
     output {
-        Array[File] tables = glob(".tsv")
+        Array[File] tables = glob("*.tsv")
     }
 
     runtime {
