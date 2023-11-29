@@ -38,7 +38,7 @@ task export_tables {
         model <- AnvilDataModels::json_to_dm('~{model_url}'); \
         tables <- readLines('~{write_lines(table_names)}'); \
         for (t in tables) { \
-            dat <- AnVIL::avtable(t, name=~{workspace_name}, namespace=~{workspace_namespace}); \
+            dat <- AnVIL::avtable(t, name='~{workspace_name}', namespace='~{workspace_namespace}'); \
             ordered_cols <- intersect(names(model[[t]]), names(dat)); \
             dat <- dat[,ordered_cols]; \
             readr::write_tsv(dat, paste0(t, '.tsv')); \
