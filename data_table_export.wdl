@@ -19,7 +19,7 @@ workflow data_table_export {
         Array[File] tables = export_tables.tables
     }
 
-     meta {
+    meta {
           author: "Stephanie Gogarten"
           email: "sdmorris@uw.edu"
     }
@@ -35,7 +35,7 @@ task export_tables {
 
     command <<<
         Rscript -e "\
-        model <- AnvilDataModels::json_to_dm('~{model_url})'; \
+        model <- AnvilDataModels::json_to_dm('~{model_url}'); \
         tables <- readLines('~{write_lines(table_names)}'); \
         for (t in tables) { \
             dat <- AnVIL::avtable(t, name=~{workspace_name}, namespace=~{workspace_namespace}); \
