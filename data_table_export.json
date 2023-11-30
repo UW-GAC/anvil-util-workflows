@@ -1,0 +1,6 @@
+{
+    "data_table_export.table_names": ["subject", "sample"],
+    "data_table_export.model_url": "https://raw.githubusercontent.com/UW-GAC/anvil-util-workflows/main/testdata/data_model.json",
+    "data_table_export.workspace_name": "PRIMED_genotype_test",
+    "data_table_export.workspace_namespace": "primed-stephanie"
+}
