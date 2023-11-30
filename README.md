@@ -76,24 +76,25 @@ workspace_name | A string with the workspace name. e.g, if the workspace URL is 
 workspace_namespace | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
 
 
+## data_table_export
 
-## data_dictionary_report
-
-This workflow checks TSV-formatted data files against a data dictionary (DD). The DD should be specified in the same format as a data model.
+This workflow imports TSV files from AnVIL data table with columns in the same order as in the data model. (Using the "export" feature directly
+from AnVIL will produce tables with columns in alphabetical order.)
 
 The user must specify the following inputs:
 
 input | description
 --- | ---
-data_file | Google bucket path to a TSV data file.
-dd_url | A URL providing the path to the data dictionary in JSON format.
+table_names | Names of tables in the workspace to export.
+model_url | A URL providing the path to the data model in JSON format.
+workspace_name | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace name is "Terra-Workflows-Quickstart"
+workspace_namespace | A string with the workspace name. e.g, if the workspace URL is https://anvil.terra.bio/#workspaces/fc-product-demo/Terra-Workflows-Quickstart, the workspace namespace is "fc-product-demo"
 
 The workflow returns the following outputs:
 
 output | description
 --- | ---
-validation_report | A text file with validation results
-pass_checks | a boolean value where 'true' means the data file fulfilled the minimum requirements of the data dictionary (all required columns present)
+tables | A file array with the tables in TSV format.
 
 
 ## check_md5
