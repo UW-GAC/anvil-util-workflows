@@ -51,6 +51,6 @@ task export_tables {
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.4.6"
+        docker: "uwgac/anvil-util-workflows:0.5.0"
     }
 }
