@@ -1,3 +1,3 @@
 docker build --no-cache -f dm.dfile -t uwgac/anvil_dm:1.0.6.1 .
-docker build --no-cache -f anvildatamodels.dfile -t uwgac/anvildatamodels:0.4.6 .
-docker build --no-cache -f Dockerfile -t uwgac/anvil-util-workflows:0.4.6 .
+docker build --no-cache -f anvildatamodels.dfile -t uwgac/anvildatamodels:0.5.0 .
+docker build --no-cache -f Dockerfile -t uwgac/anvil-util-workflows:0.5.0 .
