@@ -68,6 +68,6 @@ task validate {
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.5.0"
+        docker: "uwgac/anvil-util-workflows:0.5.1"
     }
 }
