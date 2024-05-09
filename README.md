@@ -24,6 +24,7 @@ input | description
 --- | ---
 table_files | This input is of type Map[String, File], which consists of key:value pairs. Keys are table names, which should correspond to names in the data model, and values are Google bucket paths to TSV files for each table.
 model_url | A URL providing the path to the data model in JSON format.
+check_bucket_paths | A boolean indicating whether to check the existence of bucket paths in the data tables (default true).
 hash_id_nchar | Number of characters in auto-generated columns (default 16)
 import_tables | A boolean indicating whether tables should be imported to a workspace after validation.
 overwrite | A boolean indicating whether existing rows in the data tables should be overwritten.
@@ -52,6 +53,7 @@ input | description
 --- | ---
 table_files | This input is of type Map[String, File], which consists of key:value pairs. Keys are table names, which should correspond to names in the data model, and values are Google bucket paths to TSV files for each table.
 model_url | A URL providing the path to the data model in JSON format.
+check_bucket_paths | A boolean indicating whether to check the existence of bucket paths in the data tables (default true).
 
 The workflow returns the following outputs:
 
