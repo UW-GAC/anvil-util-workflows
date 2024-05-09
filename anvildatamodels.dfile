@@ -1,5 +1,5 @@
 FROM uwgac/anvil_dm:1.0.6.1
     
-RUN Rscript -e 'BiocManager::install("argparser")'
+RUN Rscript -e 'remotes::install_cran("argparser")'
 RUN Rscript -e 'remotes::install_github("Bioconductor/AnVIL", ref="ef11648", upgrade=FALSE)'
 RUN Rscript -e 'remotes::install_github("UW-GAC/AnvilDataModels", upgrade=FALSE)'
