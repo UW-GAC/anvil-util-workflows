@@ -4,11 +4,13 @@ workflow data_model_report {
     input {
         Map[String, File] table_files
         String model_url
+        Boolean check_bucket_paths = true
     }
 
     call validate {
         input: table_files = table_files,
-               model_url = model_url
+               model_url = model_url,
+               check_bucket_paths = check_bucket_paths
     }
 
     output {
@@ -26,13 +28,15 @@ task validate {
     input {
         Map[String, File] table_files
         String model_url
+        Boolean check_bucket_paths
     }
 
     command <<<
         Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
             --table_files ~{write_map(table_files)} \
             --model_file ~{model_url} \
-            --skip_hash_id
+            --skip_hash_id \
+            ~{true='' false='--skip_bucket_paths' check_bucket_paths}
     >>>
 
     output {

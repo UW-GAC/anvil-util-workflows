@@ -9,6 +9,7 @@ argp <- add_argument(argp, "--table_files", help="2-column tsv file with (table 
 argp <- add_argument(argp, "--model_file", help="json file with data model")
 argp <- add_argument(argp, "--hash_id_nchar", default=16, help="number of characters in automatically generated ids")
 argp <- add_argument(argp, "--skip_hash_id", flag=TRUE, help="skip automatic id generation")
+argp <- add_argument(argp, "--skip_bucket_paths", flag=TRUE, help="skip checking for existence of google bucket paths")
 argp <- add_argument(argp, "--use_existing_tables", flag=TRUE, help="for any tables in the data model but not included in table_files, read the existing table from the AnVIL workspace for validation")
 argp <- add_argument(argp, "--stop_on_fail", flag=TRUE, help="return an error code if table_files do not pass checks")
 argp <- add_argument(argp, "--workspace_name", help="name of AnVIL workspace to import data to")
@@ -72,7 +73,7 @@ if (argv$use_existing_tables) {
     }
 }
 
-params <- list(tables=check_files, model=argv$model_file)
+params <- list(tables=check_files, model=argv$model_file, check_bucket_paths=!argv$skip_bucket_paths)
 pass <- custom_render_markdown("data_model_report", "data_model_validation", parameters=params)
 if (argv$stop_on_fail) {
     if (!pass) stop("table_files not compatible with data model; see data_model_validation.html")
