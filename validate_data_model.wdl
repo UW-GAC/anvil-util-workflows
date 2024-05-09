@@ -8,6 +8,7 @@ workflow validate_data_model {
         String workspace_namespace
         Boolean overwrite = false
         Boolean import_tables = false
+        Boolean check_bucket_paths = true
         Int? hash_id_nchar
     }
 
@@ -18,7 +19,8 @@ workflow validate_data_model {
                workspace_name = workspace_name,
                workspace_namespace = workspace_namespace,
                overwrite = overwrite,
-               import_tables = import_tables
+               import_tables = import_tables,
+               check_bucket_paths = check_bucket_paths
     }
 
     output {
@@ -40,6 +42,7 @@ task validate {
         String workspace_namespace
         Boolean overwrite
         Boolean import_tables
+        Boolean check_bucket_paths
         Int hash_id_nchar = 16
     }
 
@@ -51,6 +54,7 @@ task validate {
             --workspace_name ~{workspace_name} \
             --workspace_namespace ~{workspace_namespace} \
             --stop_on_fail --use_existing_tables \
+            ~{true='' false='--skip_bucket_paths' check_bucket_paths} \
             --hash_id_nchar ~{hash_id_nchar}
         if [[ "~{import_tables}" == "true" ]]
         then
@@ -68,6 +72,6 @@ task validate {
     }
 
     runtime {
-        docker: "uwgac/anvil-util-workflows:0.5.0"
+        docker: "uwgac/anvil-util-workflows:0.5.1"
     }
 }
