@@ -42,7 +42,7 @@ if (!argv$skip_hash_id) {
         new_files <- paste("output", names(tables), "table.tsv", sep="_")
         names(new_files) <- names(tables)
         for (t in names(tables2)) {
-            write_tsv(tables2[[t]], new_files[t])
+            write_tsv(tables2[[t]], new_files[t], escape="none")
         }
     } else {
         new_files <- setNames(table_files$files, table_files$names)
@@ -69,7 +69,7 @@ if (argv$use_existing_tables) {
             dat <- unnest_set_table(dat)
         }
         check_files[t] <- paste0(t, "_current.tsv")
-        write_tsv(dat, check_files[t])
+        write_tsv(dat, check_files[t], escape="none")
     }
 }
 
