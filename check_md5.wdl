@@ -4,7 +4,7 @@ workflow check_md5 {
     input {
         Array[String] file
         Array[String] md5sum
-        Array[String] id
+        #Array[String]? id
         String? project_id
     }
 
@@ -19,8 +19,8 @@ workflow check_md5 {
 
     call summarize_md5_check {
         input: file = file,
-            md5_check = md5check.md5_check,
-            id = id
+            md5_check = md5check.md5_check
+            #id = id
     }
 
     output {
