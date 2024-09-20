@@ -63,14 +63,16 @@ task summarize_md5_check {
     input {
         Array[String] file
         Array[String] md5_check
-        Array[String] id
+        Array[String]? id
     }
+
+    Array[String] id2 = select_first([id, range(length(file)) + 1])
 
     command <<<
         Rscript -e "\
         files <- readLines('~{write_lines(file)}'); \
         checks <- readLines('~{write_lines(md5_check)}'); \
-        ids <- readLines('~{write_lines(id)}'); \
+        ids <- readLines('~{write_lines(id2)}'); \
         library(dplyr); \
         dat <- tibble(id=ids, file_path=files, md5_check=checks); \
         readr::write_tsv(dat, 'details.txt'); \
