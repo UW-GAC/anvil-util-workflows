@@ -2,19 +2,29 @@ version 1.0
 
 workflow check_md5 {
     input {
-        String file
-        String md5sum
+        Array[String] file
+        Array[String] md5sum
+        Array[String] id
         String? project_id
     }
 
-    call md5check {
-        input: file = file,
-               md5sum = md5sum,
+    
+    scatter (pair in zip(file, md5sum)) {
+        call md5check {
+            input: file = pair.left,
+                md5sum = pair.right,
                project_id = project_id
+        }
+    }
+
+    call summarize_md5_check {
+        input: file = file,
+            md5_check = md5check.md5_check,
+            id = id
     }
 
     output {
-        String md5_check = md5check.md5_check
+        String md5_check_summary = summarize_md5_check.summary
     }
 
      meta {
