@@ -66,7 +66,8 @@ task summarize_md5_check {
         Array[String]? id
     }
 
-    Array[String] id2 = select_first([id, range(length(file)) + 1])
+    Array[Int] id_num = range(length(file))
+    Array[String] id2 = select_first([id, id_num])
 
     command <<<
         Rscript -e "\
