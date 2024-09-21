@@ -2,19 +2,29 @@ version 1.0
 
 workflow check_md5 {
     input {
-        String file
-        String md5sum
+        Array[String] file
+        Array[String] md5sum
+        #Array[String]? id
         String? project_id
     }
 
-    call md5check {
-        input: file = file,
-               md5sum = md5sum,
+    
+    scatter (pair in zip(file, md5sum)) {
+        call md5check {
+            input: file = pair.left,
+                md5sum = pair.right,
                project_id = project_id
+        }
+    }
+
+    call summarize_md5_check {
+        input: file = file,
+            md5_check = md5check.md5_check
+            #id = id
     }
 
     output {
-        String md5_check = md5check.md5_check
+        String md5_check_summary = summarize_md5_check.summary
     }
 
      meta {
@@ -63,14 +73,17 @@ task summarize_md5_check {
     input {
         Array[String] file
         Array[String] md5_check
-        Array[String] id
+        Array[String]? id
     }
+
+    Array[Int] id_num = range(length(file))
+    Array[String] id2 = select_first([id, id_num])
 
     command <<<
         Rscript -e "\
         files <- readLines('~{write_lines(file)}'); \
         checks <- readLines('~{write_lines(md5_check)}'); \
-        ids <- readLines('~{write_lines(id)}'); \
+        ids <- readLines('~{write_lines(id2)}'); \
         library(dplyr); \
         dat <- tibble(id=ids, file_path=files, md5_check=checks); \
         readr::write_tsv(dat, 'details.txt'); \
