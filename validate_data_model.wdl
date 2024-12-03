@@ -73,5 +73,6 @@ task validate {
 
     runtime {
         docker: "uwgac/anvil-util-workflows:0.5.1-2"
+        disks: "local-disk 16 SSD"
     }
 }
