@@ -24,10 +24,10 @@ task md5 {
             files <- readLines("~{file_list}")
             md5 <- character(length(files))
             for (i in seq_along(files)) {
-                md5[i] <- AnVILGCP::gsutil_stat(files[i])[["Hash (md5)"]]
+                md5[i] <- AnVIL::gsutil_stat(files[i])[["Hash (md5)"]]
             }
-            md5_tbl <- tibble(file = files, md5 = md5)
-            write_tsv(md5_tbl, "md5_table.tsv")
+            md5_tbl <- tibble::tibble(file = files, md5 = md5)
+            readr::write_tsv(md5_tbl, "md5_table.tsv")
         RSCRIPT   
     >>>
 
