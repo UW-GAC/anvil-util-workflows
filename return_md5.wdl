@@ -20,7 +20,7 @@ task md5 {
     }
 
     command <<<
-        R < RSCRIPT
+        R << RSCRIPT
             files <- readLines("~{file_list}")
             md5 <- character(length(files))
             for (i in seq_along(files)) {
