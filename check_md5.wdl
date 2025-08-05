@@ -54,7 +54,7 @@ task md5check {
         echo "hex checksum: "; cat md5_hex.txt
         echo "hex provided: ~{md5sum}"
         python3 -c "print('PASS') if open('md5_hex.txt').read().strip() == '~{md5sum}' else print('UNVERIFIED') if open('md5_hex.txt').read().strip() == '' else print('FAIL')" > check.txt
-        if [[ $(<check.txt) = 'FAIL' ]]; then
+        if [[ $(<check.txt) != 'PASS' ]]; then
             exit 1
         fi
     >>>
