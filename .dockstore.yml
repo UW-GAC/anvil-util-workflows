@@ -50,3 +50,6 @@ workflows:
      primaryDescriptorPath: /validate_data_model.wdl
      testParameterFiles:
          - /validate_data_model.json
+   - name: copy_create_md5
+     subclass: WDL
+     primaryDescriptorPath: /copy_create_md5.wdl
