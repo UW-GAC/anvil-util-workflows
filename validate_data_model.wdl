@@ -1,4 +1,4 @@
-version 1.0
+version 1.1
 
 workflow validate_data_model {
     input {
