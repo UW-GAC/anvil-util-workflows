@@ -1,0 +1,4 @@
+FROM bioconductor/bioconductor_docker:latest
+    
+RUN Rscript -e 'BiocManager::install("AnVIL", update=FALSE)'
+RUN Rscript -e 'BiocManager::install("AnVILGCP", update=FALSE)'

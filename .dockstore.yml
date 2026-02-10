@@ -53,3 +53,6 @@ workflows:
    - name: copy_create_md5
      subclass: WDL
      primaryDescriptorPath: /copy_create_md5.wdl
+   - name: anvil_test
+     subclass: WDL
+     primaryDescriptorPath: /anvil_test.wdl
