@@ -30,7 +30,7 @@ task test {
         export GOOGLE_PROJECT=~{project_id}
         R << RSCRIPT
             library(AnVIL)
-            tables <- avtables(namespace='~{workspace_namespace}', name~{workspace_name})
+            tables <- avtables(namespace='~{workspace_namespace}', name='~{workspace_name}')
             readr::write_tsv(tables, "tables.txt")
         RSCRIPT
     >>>
