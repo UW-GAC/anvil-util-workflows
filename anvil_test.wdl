@@ -38,4 +38,8 @@ task test {
     output {
         File tables = "tables.txt"
     }
+
+    runtime {
+        docker: "uwgac/anvil_test:1"
+    }
 }
