@@ -44,9 +44,11 @@ task validate {
         Boolean import_tables
         Boolean check_bucket_paths
         Int hash_id_nchar = 16
+        String project_id
     }
 
     command <<<
+        export GOOGLE_PROJECT=~{project_id}
         set -e
         Rscript /usr/local/anvil-util-workflows/validate_data_model.R \
             --table_files ~{write_map(table_files)} \
