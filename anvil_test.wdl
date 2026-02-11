@@ -28,8 +28,11 @@ task test {
 
     command <<<
         export GOOGLE_PROJECT=~{project_id}
+        export GCLOUD_SDK_PATH=/usr
+        which gcloud
         R << RSCRIPT
             library(AnVIL)
+            library(AnVILGCP)
             tables <- avtables(namespace='~{workspace_namespace}', name='~{workspace_name}')
             readr::write_tsv(tables, "tables.txt")
         RSCRIPT
