@@ -64,7 +64,7 @@ task md5check {
     }
 
     runtime {
-        docker: "google/cloud-sdk:slim"
+        docker: "google/cloud-sdk:500.0.0-slim"
     }
 }
 
